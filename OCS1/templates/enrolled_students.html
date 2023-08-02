@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Enrolled Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #FFEBEB;
+        }
+
+        h1 {
+            color: #032b53;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin-top: 40px;
+            list-style: none;
+            padding: 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Create grid columns with min width of 300px */
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        strong {
+            color: #829460;
+        }
+
+        .empty-message {
+            color: #777;
+            text-align: center;
+        }
+
+        .go-back-link {
+            position: fixed; /* Position the button */
+            top: 10px; /* Distance from the top */
+            right: 10px; /* Distance from the right */
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .go-back-link:hover {
+            text-decoration: none;
+            background-color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enrolled Students for "{{ course.name }}"</h1>
+    {% if enrolled_students %}
+        <ul>
+            {% for payment in enrolled_students %}
+                <li>
+                    <strong>Student Email:</strong> {{ payment.student_id.email }}<br>
+                    <strong>Invoice Number:</strong> {{ payment.invoice_number }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty-message">No students enrolled in this course.</p>
+    {% endif %}
+
+    <a href="{% url 'teacher_dashboard' %}" class="go-back-link">Go Back</a>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Course Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #ADE4DB;
+        }
+
+        h1 {
+            color: #071952;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #008080;
+        }
+
+        h3 {
+            color: #83764F;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #1E90FF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .messages {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: #FF0000;
+        }
+
+        .success {
+            color: #008000;
+        }
+
+        .info {
+            color: #1E90FF;
+        }
+
+        .warning {
+            color: #FFA500;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        /* Container style */
+        .container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #F0F0F0;
+        }
+
+        .content {
+            margin-top: 30px;
+        }
+
+        .go-back-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .go-back-button:hover {
+            background-color: #007BFF;
+            text-decoration: none;
+        }
+
+         /* Buttons */
+         .action-button {
+            background-color: #E86A33;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 1px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .action-button:hover {
+            background-color: #E86A33;
+        }
+
+        .edit-button {
+            background-color: #35A29F;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .edit-button:hover {
+            background-color: #35A29F;
+        }
+
+        .delete-button {
+            background-color: #97FEED;
+            color: #212529;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .delete-button:hover {
+            background-color: #97FEED;
+        }
+
+        /* Additional styles */
+        
+
+    </style>
+</head>
+
+<body>
+    <h1>Course Details - {{course.name}}</h1>
+
+    <hr>
+    <h3>Teacher: {{ course.teacher.username }}</h3>
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Price:</strong> ${{ course.price }}</p>
+    {% if user.is_authenticated and user.is_teacher %}
+    <a href="{% url 'add_content' course.pk %}" class="action-button">Add Content</a>
+    {% endif %}
+    <hr>
+    <h2>Contents</h2>
+    {% if messages %}
+    {% endif %}
+
+    <!-- Wrap the content in the container div -->
+    <div class="container">
+        {% for content in contents %}
+        <li>
+            <strong>Title:</strong> {{ content.title }}<br>
+            <strong>Description:</strong> {{ content.description }}<br>
+            <strong>Video URL:</strong> <a href="{{ content.video_url }}">{{ content.video_url }}</a>
+            <br>
+            {% if user.is_authenticated and user.is_teacher %}
+            <a href="{% url 'edit_content' course.pk content.pk %}" class="edit-button">Edit</a>
+            <a href="{% url 'delete_content' course.pk content.pk %}" class="delete-button">Delete</a>
+            {% endif %}
+            <hr>
+        </li>
+        {% empty %}
+        <li>No contents available for this course.</li>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'index' %}" class="go-back-button">Go back</a>
+</body>
+
+</html>

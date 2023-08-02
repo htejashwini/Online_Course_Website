@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .welcome-heading {
+            color: #560319;
+            margin-top: 20px;
+            margin-bottom: 20px; /* Add space after the heading */
+            font-family: "Roboto", serif; /* Change font family */
+            font-size: 38px; /* Adjust font size */
+            font-weight: bold; /* Make the font bold */
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #7A316F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 40px;
+        }
+
+        button[type="s"] {
+            background-color: #67d055;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 40px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #7A316F;
+        }
+
+        ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            list-style: none; /* Remove bullet points */
+            padding: 0; /* Remove default padding */
+            margin-top: 30px;
+        }
+
+        li {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #baedde;
+        }
+
+        h2 {
+            color: #050962;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: #696969;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #05065d;
+            text-decoration: none;
+        }
+
+        /* Go back button */
+        .go-back-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .go-back-button:hover {
+            background-color: #007BFF;
+        }
+
+        label[for="sort"] {
+            margin-right: 10px; /* Add space between label and select */
+        }
+
+        #sort {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px; /* Set select width */
+        }
+
+        /* Adjust button alignment */
+        button[type="submit"],
+        #sort {
+            vertical-align: middle;
+        }
+
+    </style>
+</head>
+<body>
+    <h2 class="welcome-heading"">Welcome, Explore the courses...{{ request.user.username }}!</h2>
+    <form method="GET">
+        <input type="text" name="search" placeholder="Search">
+        <button type="s">Search</button> 
+        <select id="sort" name="sort">
+            <option value="">Select an option</option>
+            <option value="price">Price</option>
+            <option value="ratings">Ratings</option>
+            <option value="video_time">Less Video Time</option>
+        </select>
+        <button type="s">Sort</button>
+    </form>
+    <ul>
+        {% for course in courses %}
+            <li>
+                <h2>{{ course.name }}</a></h2>
+                <h3>Teacher: {{ course.teacher.username }}</h3>
+                <p><strong>Description:</strong> {{ course.description }}</p>
+                <p><strong>Price:</strong> ${{ course.price }}</p>
+                <p><strong>Rating:</strong> {{ course.ratings|default:0|floatformat:1 }}/5 ({{ course.total_ratings }} ratings)</p>
+                {% if user.is_authenticated %}
+                    {% if course.pk in enrolled_courses %}
+                    <form method="GET" action="{% url 'course_details' course.pk %}">
+                        <button type="submit">Learn</button>
+                    </form>
+                    <h2>You have enrolled for this course</h2>
+                    {% else %}
+                        <form method="post" action="{% url 'checkout' course.pk %}">
+                            {% csrf_token %}
+                            <button type="submit">Buy Now</button>
+                            <h2>Buy now to get access over all the contents of this course</h2>
+                        </form>
+                    {% endif %}
+                {% endif %}
+
+                {% if not user.is_authenticated %}
+                <h2>Get <a href="{% url 'signup' %}">register</a> to explore the courses.</h2>
+                {% endif %}
+               </li>
+        {% empty %}
+            <p>No courses available.</p>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'index' %}" class="go-back-button">Go back</a>
+</body>
+</html>

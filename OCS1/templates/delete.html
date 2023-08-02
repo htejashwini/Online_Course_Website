@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #1E90FF;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button[type="submit"] {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #CC0000;
+        }
+
+        a {
+            color: #1E90FF;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            border: 1px solid #1E90FF;
+            border-radius: 4px;
+        }
+
+        a:hover {
+            background-color: #1E90FF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {% if content %}
+        <h1>Delete Content</h1>
+        <p>Are you sure you want to delete the content "{{ content.title }}" of course "{{ course.name }}"?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <a href="{% url 'course_details' pk=course.pk %}">Cancel</a>
+    {% else %}
+        <h1>Delete Course</h1>
+        <p>Are you sure you want to delete the course "{{ course.name }}"?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <a href="{% url 'teacher_dashboard' %}">Cancel</a>
+    {% endif %}
+</body>
+</html>

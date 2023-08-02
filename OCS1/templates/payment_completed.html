@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Payment Completed</title>
+    <style>
+        body {
+           font-family: Arial, sans-serif;
+           background-color: #f1f1f1;
+           text-align: center;
+           padding: 20px;
+         }
+         
+         h1 {
+           color: #00cc00;
+         }
+         
+         p {
+           color: #333333;
+         }
+         
+         .button {
+           display: inline-block;
+           padding: 10px 20px;
+           background-color: #333333;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 4px;
+         }
+         
+         .button:hover {
+           background-color: #555555;
+         }
+         
+         .receipt {
+           margin: 20px auto;
+           max-width: 600px;
+           background-color: #ffffff;
+           padding: 20px;
+           border-radius: 4px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         }
+         
+         .receipt p {
+           margin-bottom: 10px;
+         }
+     
+         button {
+           color: white;
+           border: none;
+           padding: 10px 20px;
+           text-align: center;
+           text-decoration: none;
+           display: inline-block;
+           font-size: 16px;
+           margin: 4px 2px;
+           cursor: pointer;
+           border-radius: 4px;
+         }
+       
+         
+       .buttons {
+        background-color: #525FE1;
+        color: #fff;
+      }
+     </style>
+</head>
+<body>
+    <h1>Payment Completed</h1>
+    {% if course and invoice_number %}
+    <p>Thank you for your payment. Your purchase has been successful.</p>
+    <div class="card" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
+    <h2>Invoice Number: {{ invoice_number }}</h2>
+    <h2>Course: {{ course.name }}</h2>
+    <p>Price: ${{ course.price }}</p>
+    </div>
+    <p>You now have access to the course contents. Enjoy learning!</p>
+    <a href="{% url 'student_dashboard' %}">Go back to Course List</a>
+    {% else %}
+        <p>Sorry, an error occurred during payment processing. Please contact support.</p>
+    {% endif %}
+</body>
+</html>

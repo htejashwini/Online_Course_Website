@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #B5D5C5;
+        }
+        h1 {
+            color: #032b53;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        ul {
+            margin-top: 80px;
+            list-style: none;
+            padding: 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Create grid columns with min width of 300px */
+            gap: 20px;
+        }
+
+        li {
+            background-color: #EAC7C7;
+            padding: 0;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 a {
+            color: #7F669D;
+            text-decoration: none;
+        }
+
+        h2 a:hover {
+            text-decoration: none;
+        }
+
+        h3 {
+            margin-top: 5px;
+        }
+
+        p {
+            margin-top: 5px;
+        }
+
+        .reg {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .reg:hover {
+            background-color: #0056b3;
+        }
+
+        .enrolled-students {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .enrolled-students li {
+            margin-bottom: 5px;
+        }
+
+        .empty-message {
+            color: #777;
+            text-align: center;
+        }
+
+        .action-links {
+            margin-top: 10px;
+        }
+
+        .action-links a {
+            margin-right: 10px;
+            color: whitesmoke;
+            text-decoration: none;
+        }
+
+        .go-back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .action-button {
+            background-color: #FFC26F;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .action-button:hover {
+            background-color: #FFC26F;
+        }
+
+        .delete-button {
+            background-color: #ff0000;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+
+        .view-students-button {
+            background-color: #D58BDD;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            border-radius: 5px;
+            border: none;
+            
+        }
+
+        .view-students-button:hover {
+            background-color: #D58BDD;
+        }
+
+        .go-back-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .go-back-button:hover {
+            background-color: #007BFF;
+        }
+
+        .new-course-button {
+            background-color: #905E96;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            border-radius: 5px;
+            border: none;
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            margin-bottom: 200px;
+        }
+
+        .new-course-button:hover {
+            background-color: #905E96;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <a href="{% url 'create_course' %}" class="new-course-button">Create New Course</a>
+    <ul>
+        {% for course in courses %}
+            <li>
+                <h2><a href="{% url 'course_details' course.pk %}">{{ course.name }}</a></h2>
+                <h3>Teacher: {{ course.teacher.username }}</h3>
+                <p><strong>Description:</strong> {{ course.description }}</p>
+                <p><strong>Price:</strong> ${{ course.price }}</p>
+                <p><strong>Rating:</strong> {{ course.ratings|default:0|floatformat:1 }}/5 ({{ course.total_ratings }} ratings)</p>
+                <div class="action-links">
+                <a href="{% url 'update_course' pk=course.pk %}" class="action-button">Update</a>
+                <a href="{% url 'delete_course' pk=course.pk %}" class="delete-button">Delete</a>
+                <a href="{% url 'view_enrolled_students' pk=course.pk %}" class="view-students-button">View Enrolled Students</a>
+            </div>
+            
+            </li>
+
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'index' %}" class="go-back-button">Go Back</a>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OTP Verification</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #1E90FF;
+            text-align: center;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+  
+{% block content %}
+  <h2>OTP Verification</h2>
+  <form method="post" action="{% url 'verify_otp_verify' %}">
+    {% csrf_token %}
+    <input type="hidden" name="email" value="{{ email }}">
+    <input type="hidden" name="otp" value="{{ otp }}">
+    <div class="form-group">
+      <label for="otp">OTP</label>
+      <input type="text" id="otp" name="otp" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Verify OTP" class="btn btn-primary">
+    </div>
+  </form>
+
+{% endblock %}
+</body>
+</html>
