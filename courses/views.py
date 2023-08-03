@@ -128,14 +128,19 @@ def user_login(request):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = None
-        user.set_password(password)
-        user.save()
-        if user is not None and check_password(password, user.password): 
-            auth_login(request, user)
-            return redirect('index')
+        
+        if user is not None:
+            user.set_password(password)
+            user.save()
+            if check_password(password, user.password): 
+                auth_login(request, user)
+                return redirect('index')
+            else:
+                error_message = 'Invalid username or password. Please try again.'
         else:
-            error_message = 'Invalid username or password. Please try again or   The user with this email is not registered.'
-            return render(request, 'user_login.html', {'error_message': error_message})
+            error_message = 'The user with this email is not registered.'
+        
+        return render(request, 'user_login.html', {'error_message': error_message})
     password_reset_form = CustomPasswordResetForm()
     return render(request, 'user_login.html')
 
