@@ -6,11 +6,11 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #FFEBEB;
+            background-color: #0B666A;
         }
 
         h1 {
-            color: #032b53;
+            color: #F6F4EB;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -39,23 +39,25 @@
             text-align: center;
         }
 
-        .go-back-link {
-            position: fixed; /* Position the button */
-            top: 10px; /* Distance from the top */
-            right: 10px; /* Distance from the right */
-            background-color: #1E90FF;
-            color: white;
-            border: none;
+        .go-back-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #0B666A;
+            color: white !important ;
+            border: 1px solid #FFF;
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
             text-decoration: none;
+            
         }
 
-        .go-back-link:hover {
-            text-decoration: none;
-            background-color: #007BFF;
+        .go-back-button:hover {
+            color: #0B666A !important ;
+            background-color: white !important ;
+            border: 2px solid #0B666A;
         }
     </style>
 </head>
@@ -74,6 +76,6 @@
         <p class="empty-message">No students enrolled in this course.</p>
     {% endif %}
 
-    <a href="{% url 'teacher_dashboard' %}" class="go-back-link">Go Back</a>
+    <a href="{% url 'teacher_dashboard' %}" class="go-back-button">Go Back</a>
 </body>
 </html>

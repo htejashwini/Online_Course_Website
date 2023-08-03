@@ -130,8 +130,8 @@ def user_login(request):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = None
-        user.set_password(password)
-        user.save()
+        # user.set_password(password)
+        # user.save()
         if user is not None and check_password(password, user.password): 
             auth_login(request, user)
             if user.is_teacher:
@@ -201,10 +201,8 @@ def delete_course(request, pk):
 
 def dashboard(request):
     try:
-        # Try to get the Student object for the currently authenticated user
         student = Student.objects.get(student_id=request.user)
     except ObjectDoesNotExist:
-        # If the Student object doesn't exist, create a new one for the user with username=email
         student = Student.objects.create(student_id=request.user, email=request.user.email, username=request.user.email)
 
     search_query = request.GET.get('search')

@@ -6,6 +6,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+             background-color: #0B666A;
         }
 
         form {
@@ -13,11 +14,11 @@
         }
 
         .welcome-heading {
-            color: #560319;
+            color: #fff;
             margin-top: 20px;
             margin-bottom: 20px; /* Add space after the heading */
             font-family: "Roboto", serif; /* Change font family */
-            font-size: 38px; /* Adjust font size */
+            font-size: 20px; /* Adjust font size */
             font-weight: bold; /* Make the font bold */
         }
 
@@ -30,7 +31,7 @@
         }
 
         button[type="submit"] {
-            background-color: #7A316F;
+            background-color: #0B666A;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -41,7 +42,7 @@
         }
 
         button[type="s"] {
-            background-color: #67d055;
+            background-color: #f5b11d;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -52,7 +53,9 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #7A316F;
+            color: #0B666A !important ;
+            background-color: white !important ;
+            border: 2px solid #0B666A;
         }
 
         ul {
@@ -68,9 +71,8 @@
             margin-bottom: 20px;
             border: 1px solid #ccc;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color:#fff !important;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #baedde;
         }
 
         h2 {
@@ -96,17 +98,21 @@
             position: fixed;
             top: 10px;
             right: 10px;
-            background-color: #1E90FF;
-            color: white;
-            border: none;
+            background-color: #0B666A;
+            color: white !important ;
+            border: 1px solid #FFF;
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
+            text-decoration: none;
+            
         }
 
         .go-back-button:hover {
-            background-color: #007BFF;
+            color: #0B666A !important ;
+            background-color: white !important ;
+            border: 2px solid #0B666A;
         }
 
         label[for="sort"] {
@@ -114,7 +120,7 @@
         }
 
         #sort {
-            padding: 10px;
+            padding: 10px 15px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -130,7 +136,7 @@
     </style>
 </head>
 <body>
-    <h2 class="welcome-heading"">Welcome, Explore the courses...{{ request.user.username }}!</h2>
+    <h2 class="welcome-heading"">Welcome {{ request.user.username }}!</h2>
     <form method="GET">
         <input type="text" name="search" placeholder="Search">
         <button type="s">Search</button> 
@@ -155,12 +161,10 @@
                     <form method="GET" action="{% url 'course_details' course.pk %}">
                         <button type="submit">Learn</button>
                     </form>
-                    <h2>You have enrolled for this course</h2>
                     {% else %}
                         <form method="post" action="{% url 'checkout' course.pk %}">
                             {% csrf_token %}
                             <button type="submit">Buy Now</button>
-                            <h2>Buy now to get access over all the contents of this course</h2>
                         </form>
                     {% endif %}
                 {% endif %}

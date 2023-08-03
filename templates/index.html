@@ -25,6 +25,17 @@
 
         .navbar {
             background-color: #343a40;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+        }
+    
+        .nav-items .nav-item {
+            margin-right: 10px;
         }
 
         .navbar-brand {
@@ -42,9 +53,6 @@
 
         .btn-primary {
             background-color: #007bff;
-            position: absolute;
-            top: 10px;
-            right: 100px;
         }
 
         .btn-primary:hover {
@@ -59,10 +67,6 @@
             margin-left: 10px;
             border-radius: 5px;
             border: none;
-
-            position: absolute;
-            top: 10px;
-            right: 20px;
         }
 
         .reg:hover {
@@ -112,6 +116,12 @@
           .tablet-button:hover {
             background: linear-gradient(to bottom right, #c300ff, #4dd2ff);
           }
+
+          .navbar img {
+            margin-left: 10px;
+            width: 60px;
+            height: 40px;
+        }
     </style>
     <script>
         $(document).ready(function() {
@@ -128,7 +138,9 @@
         {% endif %}
 
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <img src="{% static 'logo.jpeg' %}">&nbsp;&nbsp;
             {% if user.is_authenticated %}
+            <div class="nav-items ml-auto">
                 {% if user.is_teacher %}
                     <div class="nav-item active">
                         <a class="nav-link" href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a>
@@ -145,23 +157,27 @@
                         <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                     </div>
                 {% endif %}
-
+    
                 <div class="nav-item active">
                     <form action="{% url 'logout' %}" method="POST" id="logout_form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary">Logout</button>
                     </form>
                 </div>
-            {% else %}
-                <div class="nav-item active">
-                    <a class="navbar-brand" href="{% url 'user_login' %}">Login</a>
-                </div> <br><br>
-            {% endif %}
-            {% if not user.is_authenticated %}
-            <div class="nav-item active">
-                <a href="{% url 'signup' %}">
-                <button class="reg" id="register_button">Register</button></a>
             </div>
+            <div class="nav-items">
+            {% else %}
+                <div class="nav-items">
+                    <div class="nav-item active">
+                        <a href="{% url 'user_login' %}"><button class="reg" id="login_button">Login</button></a>
+                    </div>
+                    <br><br>
+                    <div class="nav-item active">
+                        <a href="{% url 'signup' %}">
+                            <button class="reg" id="register_button">Register</button>
+                        </a>
+                    </div>
+                </div>
             {% endif %}
         </nav>
 
@@ -170,13 +186,12 @@
         </div>
     </header>
 
-
     <div class="container">
         {% block body_block %}
         {% endblock %}
     </div>
     <div style="display: flex; justify-content: center; align-items: center; height: 90vh;">
-        <a class="tablet-button">Explore Courses</a>
+        <a class="tablet-button" href="{% url 'user_login' %}">Explore Courses</a>
     </div>
 </body>
 </html>
