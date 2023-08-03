@@ -42,15 +42,13 @@ def verify_otp(request):
                 email = email,    
             )
             if is_student:
-                user = User.objects.get(username=email)
-                student = Student.objects.create(
-                    student_id = user,
-                    email=email,
-                    username = email,    
-                )
                 user.is_student = True
                 user.save()
-                student.save()
+                Student.objects.create(
+                    student_id=user,
+                    email=email,
+                    username=email,
+                )
             elif is_teacher:
                 user = User.objects.get(username=email)
                 teacher = Teacher.objects.create(
@@ -130,19 +128,14 @@ def user_login(request):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             user = None
-        # user.set_password(password)
-        # user.save()
+        user.set_password(password)
+        user.save()
         if user is not None and check_password(password, user.password): 
             auth_login(request, user)
-            if user.is_teacher:
-                return redirect('index')
-            elif user.is_student:
-                return redirect('index')
-            else:
-                return redirect('index')
+            return redirect('index')
         else:
-            messages.error(request, 'Invalid username or password. Please try again.')
-            return redirect('signup')
+            error_message = 'Invalid username or password. Please try again or   The user with this email is not registered.'
+            return render(request, 'user_login.html', {'error_message': error_message})
     password_reset_form = CustomPasswordResetForm()
     return render(request, 'user_login.html')
 

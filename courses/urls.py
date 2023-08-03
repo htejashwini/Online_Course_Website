@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name = 'index'),
     path('signup/', views.signup, name='signup'),
     path('user_login/', views.user_login, name='user_login'),
+    path('verify_otp/', views.verify_otp, name='verify_otp'),
 
     path('reset_password/', CustomPasswordResetView.as_view(template_name="reset_password.html"), name="reset_password"),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="reset_password_sent.html") ,name ="password_reset_done" ),
@@ -14,8 +15,8 @@ urlpatterns = [
     path('reset_password_completed/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_done.html"),name ="password_reset_complete" ),
 
     path('logout/', views.logout, name='logout'),
-    path('verify/otp/', views.verify_otp, name='verify_otp'),
-    path('verify/otp/verify/', views.verify_otp, name='verify_otp_verify'),
+    # path('verify/otp/', views.verify_otp, name='verify_otp'),
+    # path('verify/otp/verify/', views.verify_otp, name='verify_otp_verify'),
 
     path('create_course/', views.create_course, name='create_course'),
     path('update_course/<int:pk>/', views.update_course, name='update_course'),

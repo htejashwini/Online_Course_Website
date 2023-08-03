@@ -92,11 +92,7 @@
             font-weight: bold;
         }
 
-        @keyframes fade-in {
-            to {
-                opacity: 1;
-            }
-        }
+    
 
         .tablet-button {
             display: flex;
@@ -120,7 +116,7 @@
           .navbar img {
             margin-left: 10px;
             width: 60px;
-            height: 40px;
+            height: 50px;
         }
     </style>
     <script>
@@ -138,7 +134,7 @@
         {% endif %}
 
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <img src="{% static 'logo.jpeg' %}">&nbsp;&nbsp;
+            <img src="{% static 'logo.png' %}">&nbsp;&nbsp;
             {% if user.is_authenticated %}
             <div class="nav-items ml-auto">
                 {% if user.is_teacher %}

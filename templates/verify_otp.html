@@ -54,7 +54,7 @@
   
 {% block content %}
   <h2>OTP Verification</h2>
-  <form method="post" action="{% url 'verify_otp_verify' %}">
+  <form method="post" action="{% url 'verify_otp' %}">
     {% csrf_token %}
     <input type="hidden" name="email" value="{{ email }}">
     <input type="hidden" name="otp" value="{{ otp }}">

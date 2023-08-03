@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,73 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        .navbar img {
+            margin-left: 10px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+        }
+    
+        .nav-items .nav-item {
+            margin-right: 10px;
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: #dcdcdc;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .reg {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 7px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .reg:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
@@ -16,6 +84,7 @@
         form {
             max-width: 300px;
             margin: 0 auto;
+            margin-top: 20px;
         }
 
         label {
@@ -59,11 +128,65 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
+    <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <img src="{% static 'logo.png' %}">&nbsp;&nbsp;
+        {% if user.is_authenticated %}
+        <div class="nav-items ml-auto">
+            {% if user.is_teacher %}
+                <div class="nav-item active">
+                    <a class="nav-link" href="{% url 'teacher_dashboard' %}">Teacher Dashboard</a>
+                </div>
+            {% elif user.is_student %}
+                <div class="nav-item active">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </div>
+                <div class="nav-item active">
+                    <a class="nav-link" href="{% url 'student_dashboard' %}">Student Dashboard</a>
+                </div>
+            {% else %}
+                <div class="nav-item active">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </div>
+            {% endif %}
+
+            <div class="nav-item active">
+                <form action="{% url 'logout' %}" method="POST" id="logout_form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </div>
+        </div>
+        <div class="nav-items">
+        {% else %}
+            <div class="nav-items">
+                <div class="nav-item active">
+                    <a href="{% url 'user_login' %}"><button class="reg" id="login_button">Login</button></a>
+                </div>
+                <br><br>
+                <div class="nav-item active">
+                    <a href="{% url 'signup' %}">
+                        <button class="reg" id="register_button">Register</button>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </nav>
+    </header>
+    <form class="card" method="post">
         {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="email" required>
@@ -72,6 +195,7 @@
         <input type="password" id="password" name="password" required>
         <br>
         <input type="submit" value="Login">
+        <p>{% if error_message %}{{ error_message }}{% endif %}</p>
     </form>
     
     <a href="{% url 'reset_password' %}">Forgot Password</a>
