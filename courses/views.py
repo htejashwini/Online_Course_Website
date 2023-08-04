@@ -42,13 +42,15 @@ def verify_otp(request):
                 email = email,    
             )
             if is_student:
+                user = User.objects.get(username=email)
+                student = Student.objects.create(
+                    student_id = user,
+                    email=email,
+                    username = email,    
+                )
                 user.is_student = True
                 user.save()
-                Student.objects.create(
-                    student_id=user,
-                    email=email,
-                    username=email,
-                )
+                student.save()
             elif is_teacher:
                 user = User.objects.get(username=email)
                 teacher = Teacher.objects.create(
